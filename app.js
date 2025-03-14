@@ -65,16 +65,31 @@ app.post("/login", async (req, res) => {
   });
 });
 
+app.get("/post", isLoggedIn, (req, res) => {
+  res.render("login");
+});
+
+app.post("/post", isLoggedIn, async (req, res) => {
+  let user = await userModel.findOne({ email: req.user.email });
+  let post = await postModel.create({
+    user: user._id,
+    content: req.body.content,
+  });
+
+  user.posts.push(post._id);
+  await user.save();
+  res.redirect("/profile");
+});
+
 app.get("/logout", (req, res) => {
   res.cookie("token", "");
   res.redirect("/login");
 });
 
-
 app.get("/profile", isLoggedIn, async (req, res) => {
-  let user = await userModel.findOne({email: req.user.email});
-  console.log(user);
-  res.render("profile",{user});
+  let user = await userModel.findOne({ email: req.user.email });
+  let posts = await postModel.find({ user: user._id });
+  res.render("profile", { user, posts });
 });
 
 function isLoggedIn(req, res, next) {

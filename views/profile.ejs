@@ -9,23 +9,67 @@
   </head>
   <body>
     <div
-      class="w-[99vw] min-h-screen bg-zinc-900 flex text-white flex-col gap-4 justify-between items-center py-5 "
+      class="w-[100vw] min-h-screen bg-zinc-900 flex text-white flex-col gap-4 justify-between items-center py-5"
     >
-      <div class="flex flex-col items-center justify-center">
-        <div class="font-bold text-red-400 text-2xl">
-          Hello, <%= user.name.toUpperCase() %> 👋
+      <div class="w-full flex items-center justify-evenly gap-3">
+        <div class="flex flex-col gap-3 items-center">
+          <div class="font-bold text-red-400 text-4xl">
+            <span class="font-light">Hello,</span> <%= user.name.toUpperCase()
+            %> 👋
+          </div>
+          <div>Create your post</div>
+          <form action="/post" method="post" class="flex flex-col gap-3">
+            <textarea
+              class="resize-none bg-transparent border-2 border-white rounded-lg p-2 min-w-[40vw] h-[20vh] text-white sm:w-[30vw]"
+              name="content"
+              id="content"
+              placeholder="Write your post here..."
+              required
+            ></textarea>
+            <button
+              type="submit"
+              class="p-2 m-2 min-w-1/4 m-auto font-bold bg-white text-xl text-black border-black rounded-lg hover:bg-zinc-900 hover:border-white border-2 hover:text-white duration-200"
+            >
+              Post
+            </button>
+          </form>
         </div>
-        <div>Posts</div>
-        <div
-          class="border-2 border-white w-[90vw] min-h-[90vh] flex flex-col px-3"
-        >
-          <div></div>
+        <div class="flex flex-col gap-3 items-center">
+          <h2 class="text-red-400 text-2xl">Posts</h2>
+          <div
+            class="flex flex-col gap-2 border-2 border-white min-w-[30vw] max-w-[50vw] min-h-[70vh] max-h-[70vh] rounded-lg p-2 overflow-y-auto"
+          >
+            <%if(posts.length === 0 ) {%>
+            <div class="text-red-400 text-md text-center">No posts yet</div>
+            <%} %> <% posts.forEach((post) => { %>
+            <div
+              class="flex flex-col border-2 border-white min-w-full h-auto rounded-lg px-2 text-sm bg-zinc-700 justify-center font-bold p-2 gap-2"
+            >
+              <div class="text-red-400 text-xl">@<%= user.name %></div>
+              <div><%= post.content %></div>
+              <div class="flex justify-evenly">
+                <a
+                  class="cursor-pointer text-xl flex text-red-400"
+                  title="Like"
+                >
+                  Like
+                </a>
+                <a
+                  class="cursor-pointer text-xl flex text-blue-400"
+                  title="Like"
+                >
+                  Edit
+                </a>
+              </div>
+            </div>
+            <% })%>
+          </div>
         </div>
       </div>
       <div>
         <a
           href="/logout"
-          class="p-1 w-[100vw] bg-white text-md text-black border-black rounded-lg hover:bg-zinc-900 hover:border-white border-2 hover:text-white duration-200"
+          class="invert p-1 w-[100vw] bg-white text-md text-black border-black rounded-lg hover:bg-zinc-900 hover:border-white border-2 hover:text-white duration-200"
           >Logout</a
         >
       </div>
