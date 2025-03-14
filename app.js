@@ -53,7 +53,7 @@ app.post("/login", async (req, res) => {
   if (!user) {
     return res.status(500).send("Something went wrong");
   }
-  
+
   bcrypt.compare(req.body.password, user.password, (err, result) => {
     if (result) {
       let token = jwt.sign({ email: user.email, userid: user._id }, "shhhh");
@@ -70,6 +70,13 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
+
+app.get("/profile", isLoggedIn, async (req, res) => {
+  let user = await userModel.findOne({email: req.user.email});
+  console.log(user);
+  res.render("profile",{user});
+});
+
 function isLoggedIn(req, res, next) {
   let token = req.cookies.token;
   if (!token) {
@@ -82,11 +89,6 @@ function isLoggedIn(req, res, next) {
   req.user = data;
   next();
 }
-
-app.get("/profile", isLoggedIn, (req, res) => {
-  console.log(req.user);
-  res.send("Profile Page");
-});
 
 app.listen(3000, () => {
   console.log(`Server is running on port 3000`);
