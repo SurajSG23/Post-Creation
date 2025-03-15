@@ -81,6 +81,11 @@ app.post("/post", isLoggedIn, async (req, res) => {
   res.redirect("/profile");
 });
 
+app.post("/update/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOneAndUpdate({_id : req.params.id}, {content : req.body.content});
+  res.redirect("/profile");
+});
+
 app.get("/logout", (req, res) => {
   res.cookie("token", "");
   res.redirect("/login");
@@ -104,6 +109,23 @@ function isLoggedIn(req, res, next) {
   req.user = data;
   next();
 }
+
+app.get("/like/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id }).populate("user");
+  if (post.likes.indexOf(req.user.userid) === -1) {
+    post.likes.push(req.user.userid);
+  } else {
+    post.likes.splice(post.likes.indexOf(req.user.userid), 1);
+  }
+  await post.save();
+  res.redirect("/profile");
+});
+
+app.get("/edit/:id", isLoggedIn, async (req, res) => {
+  let post = await postModel.findOne({ _id: req.params.id }).populate("user");
+  console.log(post);
+  res.render("edit", { post });
+});
 
 app.listen(3000, () => {
   console.log(`Server is running on port 3000`);

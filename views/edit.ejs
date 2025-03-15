@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini-Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
+    <div
+      class="w-[100vw] min-h-screen bg-zinc-900 flex text-white flex-col gap-4 justify-between items-center py-5"
+    >
+      <div class="w-full flex items-center justify-evenly gap-3">
+        <div class="flex flex-col gap-3 items-center">
+          <div>Edit your post</div>
+          <form action="/update/<%= post._id %>" method="post" class="flex flex-col gap-3">
+            <textarea
+              class="resize-none bg-transparent border-2 border-white rounded-lg p-2 min-w-[40vw] h-[20vh] text-white sm:w-[30vw]"
+              name="content"
+              id="content"
+              placeholder="Write your new post here..."
+              required
+            >
+<%= post.content %></textarea
+            >
+            <button
+              type="submit"
+              class="p-2 m-2 min-w-1/4 m-auto font-bold bg-white text-xl text-black border-black rounded-lg hover:bg-zinc-900 hover:border-white border-2 hover:text-white duration-200"
+            >
+              Update
+            </button>
+          </form>
+        </div>
+      </div>
+      <div>
+        <a
+          href="/logout"
+          class="invert p-1 w-[100vw] bg-white text-md text-black border-black rounded-lg hover:bg-zinc-900 hover:border-white border-2 hover:text-white duration-200"
+          >Logout</a
+        >
+      </div>
+    </div>
+    <script src="/javascripts/script.js"></script>
+  </body>
+</html>
