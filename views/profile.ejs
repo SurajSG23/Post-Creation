@@ -13,6 +13,22 @@
     >
       <div class="w-full flex items-center justify-evenly gap-3">
         <div class="flex flex-col gap-3 items-center">
+          <a
+            class="w-44 h-44 bg-gray-900 rounded-full overflow-hidden relative group"
+            href="/editProfile"
+          >
+            <img
+              src="/images/uploads/<%= user.profilePic %>"
+              alt=""
+              class="w-full h-full object-cover transition-opacity duration-200 group-hover:opacity-40"
+            />
+            <span
+              class="absolute inset-0 flex items-center justify-center text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            >
+              ✏️Edit
+            </span>
+          </a>
+
           <div class="font-bold text-red-400 text-4xl">
             <span class="font-light">Hello,</span> <%= user.name.toUpperCase()
             %> 👋
@@ -48,14 +64,16 @@
               <div class="text-red-400 text-xl">@<%= user.name %></div>
               <div><%= post.content %></div>
               <div class="flex justify-evenly items-center">
-                <small><%= post.likes.length%> <%= post.likes.length === 1 ? "Like" : "Likes"%> </small>
+                <small
+                  ><%= post.likes.length%> <%= post.likes.length === 1 ? "Like"
+                  : "Likes"%>
+                </small>
                 <a
                   class="cursor-pointer text-xl flex text-gray-400 hover:text-red-400 gap-1"
                   title="Like"
                   href="/like/<%= post._id %>"
                 >
-                   <%= !post.likes.indexOf(user._id)?
-                  "Unlike": "Like"%>
+                  <%= !post.likes.indexOf(user._id)? "Unlike": "Like"%>
                 </a>
                 <a
                   class="cursor-pointer text-xl flex text-gray-400 hover:text-blue-400"
